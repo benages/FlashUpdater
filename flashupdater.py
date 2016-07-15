@@ -23,10 +23,13 @@ def ExtractFile():
             shutil.copyfileobj(a, g)
 
 def CheckInstalledVersion():
-    with open(Directory + "readme.txt", 'r') as f:
-        a = f.read()
-        p = re.compile('11.2.\d\d\d.\d\d\d')
-        return p.findall(a)[0]
+    try:
+        with open(Directory + "readme.txt", 'r') as f:
+            a = f.read()
+            p = re.compile('11.2.\d\d\d.\d\d\d')
+            return p.findall(a)[0]
+    except FileNotFoundError:
+        return '11.2.000.001'
 
 def CheckUpstreamVersion():
     URL = "https://get.adobe.com/flashplayer/"
@@ -44,7 +47,6 @@ def main():
         print('Your flash version is the latest')
     else:
         print('There is a big problem. Your flash version is newer than the latest from Adobe')
-
 
 if __name__ == '__main__':
         raise SystemExit(main())
