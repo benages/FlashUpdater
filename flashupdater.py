@@ -3,17 +3,14 @@ import shutil
 import tarfile
 import re
 
-
 Directory = "/usr/lib/flashplugin-nonfree/"
 Archive = "install_flash_player_11_linux.x86_64.tar.gz"
-
 
 def DownloadFlash():
     URL = "https://fpdownload.macromedia.com/get/flashplayer/current/licensing/linux/install_flash_player_11_linux.x86_64.tar.gz"
     r = requests.get(URL, stream = True)
     with open(Directory + Archive, 'wb') as f:
         shutil.copyfileobj(r.raw, f)
-
 
 def ExtractFile():
     Filename = "libflashplayer.so"
@@ -51,6 +48,3 @@ def main():
 
 if __name__ == '__main__':
         raise SystemExit(main())
-
-
-
