@@ -25,6 +25,7 @@ def ExtractFile():
         with open(Directory+"readme.txt", 'wb') as g:
             shutil.copyfileobj(a, g)
 
+
 def CheckInstalledVersion():
     try:
         with open(Directory + "readme.txt", 'r') as f:
