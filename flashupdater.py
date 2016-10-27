@@ -17,7 +17,7 @@ def DownloadFlash():
 
 def ExtractFile():
     Filename = "libflashplayer.so"
-    with tarfile.open(Archive,'r') as f:
+    with tarfile.open(Directory+Archive,'r') as f:
         a = f.extractfile("libflashplayer.so")
         with open(Directory + Filename, 'wb') as g:
             shutil.copyfileobj(a,g)
