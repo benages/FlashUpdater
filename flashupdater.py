@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-
 import requests
 import shutil
 import tarfile
@@ -39,7 +38,7 @@ def CheckUpstreamVersion():
     URL = "https://get.adobe.com/flashplayer/"
     UserAgent = {'User-agent': 'Mozilla/5.0 (X11; Linux $arch; rv:45.0) Gecko/20100101 Firefox/45.0'}
     r = requests.get(URL, headers = UserAgent)
-    p = re.compile('11.2.\d\d\d.\d\d\d')
+    p = re.compile('24.0.\d.\d\d\d')
     return p.findall(r.text)[0]
 
 def main():
