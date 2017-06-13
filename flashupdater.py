@@ -8,9 +8,11 @@ import re
 Directory = "/usr/lib/flashplugin-nonfree/"
 Archive = "install_flash_player_11_linux.x86_64.tar.gz"
 
-def DownloadFlash():
-    URL = "https://fpdownload.macromedia.com/get/flashplayer/current/licensing/linux/install_flash_player_11_linux.x86_64.tar.gz"
+def DownloadFlash(Version):
+    URL = "https://fpdownload.adobe.com/get/flashplayer/pdc/%s/flash_player_npapi_linux.x86_64.tar.gz" % Version
     r = requests.get(URL, stream = True)
+    if r.status_code == 404:
+        exit("No se encuenta el flash")
     with open(Directory + Archive, 'wb') as f:
         shutil.copyfileobj(r.raw, f)
 
@@ -29,7 +31,7 @@ def CheckInstalledVersion():
     try:
         with open(Directory + "readme.txt", 'r') as f:
             a = f.read()
-            p = re.compile('11.2.\d\d\d.\d\d\d')
+            p = re.compile('2\d.0.\d.\d\d\d')
             return p.findall(a)[0]
     except FileNotFoundError:
         return '11.2.000.001'
@@ -38,13 +40,14 @@ def CheckUpstreamVersion():
     URL = "https://get.adobe.com/flashplayer/"
     UserAgent = {'User-agent': 'Mozilla/5.0 (X11; Linux $arch; rv:45.0) Gecko/20100101 Firefox/45.0'}
     r = requests.get(URL, headers = UserAgent)
-    p = re.compile('24.0.\d.\d\d\d')
+    p = re.compile('2\d.0.\d.\d\d\d')
     return p.findall(r.text)[0]
 
 def main():
-    if CheckUpstreamVersion() > CheckInstalledVersion():
+    UpstreamVersion = CheckUpstreamVersion()
+    if UpstreamVersion > CheckInstalledVersion():
         print('Downloading flash...')
-        DownloadFlash()
+        DownloadFlash(UpstreamVersion)
         ExtractFile()
     elif CheckUpstreamVersion() == CheckInstalledVersion():
         print('Your flash version is the latest')
